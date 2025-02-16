@@ -108,7 +108,7 @@ function enableClickEvent() {
 	  map.off('click'); // Désactive tous les événements 'click' sur la carte
 	}
 
-function getFeatureInfoPOS(lat, lon) {
+async function getFeatureInfoPOS(lat, lon) {
     return new Promise((resolve, reject) => {
         // Conversion des coordonnées lat, lon (EPSG:4326) en EPSG:2975
         var latLonProj = proj4('EPSG:4326', 'EPSG:2975', [lon, lat]);
