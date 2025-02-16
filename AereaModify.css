@@ -1,0 +1,9 @@
+._37qQG button {
+  
+ /* Positionner à gauche sous les contrôles existants */
+  position: absolute;
+  left: 10px;  /* Distance depuis la gauche */
+  top: 150px;   /* Ajuster en fonction des autres contrôles */
+  
+
+}

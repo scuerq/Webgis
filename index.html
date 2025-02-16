@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSIG - Leaflet & GeoJSON</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
+	<link rel="stylesheet" href="https://unpkg.com/@bopen/leaflet-area-selection@0.6.1/dist/index.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-popup-resizable/dist/leaflet-popup-resizable.css" />
+	<link rel="stylesheet" href="leaflet-search.css" />
+    <link rel="stylesheet" href="GpPluginLeaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
+	<link rel="stylesheet" href="controlPannel.css" />
+    <link rel="stylesheet" href="popup.css" />
+	<link rel="stylesheet" href="legend.css" />
+    <link rel="stylesheet" href="table_overlay.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+
+
+
+
+
+	<link rel="stylesheet" href="parametres.css" />
+	
+    <style>
+        /* Place ton CSS ici */
+    </style>
+</head>
+<body>
+	<!-- Bouton pour ouvrir/fermer le panneau -->
+    <div id="menu-toggle" class="menu-toggle" title="Ouvrir/fermer le panneau">☰</div>
+
+    <!-- Panneau latéral (tiroir) -->
+    <div id="lateral-panel">
+		<input id="lateral-panel-input" type="checkbox">
+		<div id="lateral-panel-bloc">
+			<label id="lateral-panel-label" for="lateral-panel-input"></label>
+			<div id="lateral-panel-content">
+				
+				<input type="file" id="geojsonInput" accept=".geojson" class="form-control">
+				<div id="legendContainer" class="well">
+					<input type="checkbox" id="legendCheck" class="form-check-input" checked>
+					<label for="legendCheck" class="form-check-label">Afficher légende</label>
+				</div>
+				
+				<div id="layerMenu" class="well">
+					<h4>Calques chargés</h4>
+					<ul id="layerList" class="list-group"></ul>
+				</div>
+				
+			</div>
+		</div>
+    </div>
+	
+	<!-- Conteneur de la carte -->
+    <div id="map-container">
+        <div id="map"></div>
+    </div>
+    
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <script src="https://unpkg.com/leaflet-popup-resizable/dist/leaflet-popup-resizable.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geometryutil/0.9.3/leaflet.geometryutil.min.js"></script>
+
+    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+	<script src="https://d3js.org/d3.v6.min.js"></script>
+	<script src="GpPluginLeaflet.js"></script>
+	<script src="leaflet-search.js"></script>
+	 <script src="https://unpkg.com/@bopen/leaflet-area-selection@0.6.1/dist/index.umd.js"></script>
+	 <script src="https://cdn.jsdelivr.net/npm/@turf/turf"></script>
+	
+	<script src="couches/couches_base.js"></script>
+	<script src="charger_couches_base.js"></script>
+	<script src="legend.js"></script>
+	<script src="POISearch.js"></script>
+	<script src="addLayerControl.js"></script>
+	<script src="selectArea.js"></script>
+	<script src="addIGN.js"></script>
+	<script src="script.js"></script>
+	<script src="sauvegarde.js"></script>
+	
+	
+	<script>
+     $(document).ready(function() {
+		$('#menu-toggle').click(function() {
+			let isChecked = $('#lateral-panel-input').prop('checked');
+			$('#lateral-panel-input').prop('checked', !isChecked);
+		});
+	});
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+/* Utilisation de Bootstrap pour les espacement et alignement */
+.legend {
+    font-family: 'Roboto', sans-serif; /* Police moderne */
+    background-color: rgba(255, 255, 255, 0.8); /* Fond semi-transparent */
+    padding: 10px;
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Ombre douce */
+    min-width: 250px;
+    max-width: 250px; /* Limiter la largeur de la légende */
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in-out; /* Animation d'entrée */
+}
+
+/* Animation d'apparition */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Titre de la légende */
+.legend strong {
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+    text-align: center;
+    color: #333;
+}
+
+/* Style des éléments de la légende */
+.legendItem {
+    display: flex;
+    align-items: center; /* Aligner verticalement le contenu */
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+/* Au survol de chaque élément */
+.legendItem:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+/* Conteneur pour le symbole et le texte */
+.symbolTextContainer {
+    display: flex;  /* Flex pour aligner le symbole et le texte sur la même ligne */
+    align-items: center; /* Alignement vertical centré */
+    margin-bottom: 5px; /* Ajouter de l'espace entre les lignes */
+}
+
+/* Symbole (cercle ou carré) */
+.symbol {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px; /* Espacement entre le symbole et le texte */
+    border: 1px solid #000;
+    transition: transform 0.3s ease;
+}
+
+/* Agrandissement du symbole au survol */
+.symbol:hover {
+    transform: scale(1.2); /* Agrandir le symbole au survol */
+}
+
+/* Texte de l'élément dans la légende */
+.symbolTextContainer span {
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+/* Changement de couleur du texte au survol */
+.legendItem:hover .symbolTextContainer span {
+    color: #007bff; /* Couleur bleue de Bootstrap */
+}

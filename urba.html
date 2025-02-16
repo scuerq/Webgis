@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte Urbanisme - GéoPF WMS</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Carte Urbanisme - GéoPF WMS</h2>
+    <div id="map"></div>
+
+    <script>
+        // Initialisation de la carte Leaflet
+        var map = L.map('map').setView([48.8566, 2.3522], 12); // Centré sur Paris
+
+        // Ajout d'un fond de carte OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Ajout du service WMS de GéoPF (zones urbanisme)
+        var wmsLayer = L.tileLayer.wms("https://data.geopf.fr/wms-v/ows", {
+            layers: "zone_secteur,zone_secteur_psmv",
+            format: "image/png",
+            transparent: true,
+            version: "1.1.1",
+            attribution: "© GéoPF - IGN"
+        }).addTo(map);
+
+        var marker;
+
+        // Fonction pour récupérer les infos d'un point via l'API GPU
+        function getUrbanismeInfo(lat, lon) {
+            var geojsonPoint = {
+                "type": "Point",
+                "coordinates": [lon, lat]
+            };
+
+            // URL pour interroger l'API GPU (par exemple, récupération des infos ponctuelles)
+            var apiUrl = "https://apicarto.ign.fr/api/gpu/info-pct";
+
+            // Requête AJAX pour récupérer les informations d'urbanisme
+            $.ajax({
+                url: apiUrl,
+                method: "POST", // Envoie des données au format POST
+                contentType: "application/json",
+                data: JSON.stringify(geojsonPoint), // Envoyer la géométrie en JSON
+                dataType: "json",
+                success: function(data) {
+                    if (data && data.features && data.features.length > 0) {
+                        var properties = data.features[0].properties;
+                        var infoText = "<b>Informations :</b><br>";
+
+                        // Parcours des propriétés et ajout à la popup
+                        Object.keys(properties).forEach(function(key) {
+                            infoText += `<b>${key}:</b> ${properties[key]}<br>`;
+                        });
+
+                        // Ajout de la popup avec les informations d'urbanisme
+                        marker.bindPopup(infoText).openPopup();
+                    } else {
+                        marker.bindPopup("Aucune donnée d'urbanisme disponible pour ce point.").openPopup();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erreur lors de la récupération des informations :", status, error);
+                    marker.bindPopup("Erreur lors de la récupération des informations.").openPopup();
+                }
+            });
+        }
+
+        // Fonction pour récupérer les informations du point via GetFeatureInfo pour le WMS
+        function getFeatureInfo(lat, lon) {
+            var bbox = map.getBounds().toBBoxString(); // BBOX actuelle de la carte
+            var width = map.getSize().x;
+            var height = map.getSize().y;
+            var point = map.latLngToContainerPoint(L.latLng(lat, lon), map.getZoom());
+            var x = Math.round(point.x);
+            var y = Math.round(point.y);
+
+            var url = `https://data.geopf.fr/wms-v/ows?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=zone_secteur,zone_secteur_psmv&QUERY_LAYERS=zone_secteur,zone_secteur_psmv&INFO_FORMAT=application/json&I=${x}&J=${y}&WIDTH=${width}&HEIGHT=${height}&CRS=EPSG:3857&BBOX=${bbox}`;
+
+            // Requête AJAX pour récupérer les informations de la couche WMS
+            $.getJSON(url, function(data) {
+                if (data && data.features && data.features.length > 0) {
+                    var properties = data.features[0].properties;
+                    var infoText = "<b>Informations WMS :</b><br>";
+
+                    // Parcours des propriétés et ajout à la popup
+                    Object.keys(properties).forEach(function(key) {
+                        infoText += `<b>${key}:</b> ${properties[key]}<br>`;
+                    });
+
+                    // Ajout de la popup avec les informations WMS
+                    marker.bindPopup(infoText).openPopup();
+                } else {
+                    marker.bindPopup("Aucune donnée WMS disponible pour ce point.").openPopup();
+                }
+            }).fail(function() {
+                marker.bindPopup("Erreur lors de la récupération des informations WMS.").openPopup();
+            });
+        }
+
+        // Événement de clic sur la carte
+        map.on('click', function(e) {
+            var lat = e.latlng.lat;
+            var lon = e.latlng.lng;
+
+            // Ajouter ou déplacer le marqueur
+            if (marker) {
+                marker.setLatLng(e.latlng);
+            } else {
+                marker = L.marker(e.latlng).addTo(map);
+            }
+
+            // Récupérer les infos d'urbanisme du point (via API GPU)
+            getUrbanismeInfo(lat, lon);
+
+            // Récupérer les infos de la couche WMS (via GetFeatureInfo)
+            getFeatureInfo(lat, lon);
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+/* Overlay couvrant toute la carte */
+#tableOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: calc(100% - 10em);
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 1000;
+    
+    /* Animation au départ */
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+/* Classe pour afficher l'overlay */
+#tableOverlay.active {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Conteneur principal du tableau */
+#tableContainer {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-height: 80%;
+    overflow: auto;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Bouton de fermeture */
+#closeTable {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 4px;
+    z-index: 1100;
+}
+
+#closeTable:hover {
+    background: darkred;
+}
+
+/* Bouton d'export */
+#exportButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 4px;
+    z-index: 1100;
+}
+
+#exportButton:hover {
+    background: darkgreen;
+}
+
+/* Conteneur du tableau */
+#tableSousContainerContainer {
+    margin-top: 50px;
+    width: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+/* Style du tableau */
+.customDataTableWrapper {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    height: 400px;
+    overflow: auto;
+}
+
+/* En-tête */
+.customDataTableWrapper th {
+    background: #f4f4f4;
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Cellules */
+.customDataTableWrapper td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}

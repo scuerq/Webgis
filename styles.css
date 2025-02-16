@@ -1,0 +1,269 @@
+/* Bandeau en haut */
+#header {
+    width: 100%;
+    height: 60px; /* Hauteur du bandeau */
+    background-color: #000;
+    color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+/* Conteneur de la carte - Il occupe TOUTE la page */
+#map-container {
+    position: absolute;  /* Pour s'étendre sur toute la page */
+    top: 0;
+    left: 0;
+    width: 100vw;        /* Largeur 100% de l'écran */
+    height: 100vh;       /* Hauteur 100% de l'écran */
+}
+
+/* Carte - Elle occupe tout le conteneur */
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+
+#lateral-panel {
+  z-index: 9999;                  /* pour être au dessus des autres éléments */
+  position: fixed;                /* ne suit pas le scroll de la page et sert de réfèrent */
+  top: 0;                         /* position en haut */
+  right: -20em;   
+  left:auto;/* à gauche */
+  width: 20em;                    /* valeur de largeur pour tout le contenu */
+  min-height: 100vh;              /* occupe toute la hauteur du viewport */
+  transform: translateX(0); 
+  transition: transform 0.5s; /* on déplace à gauche pour ne pas interférer avec le document */
+}
+#lateral-panel-input {
+  position: absolute;           /* pour sortir l'élément du flux */
+  left: -999em;                 /* position hors de la fenêtre */
+}
+
+#lateral-panel-bloc {
+  /*-- positions et dimensions --*/
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  right:0;
+  left: auto;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  /*-- visuel --*/
+  border-right: 1px solid #CCC;
+  background: #FFF;
+  transition: transform .5s;    /* pour animation du panneau */
+}
+
+#lateral-panel-label {
+    display: none;
+}
+
+#lateral-panel-content {
+  padding: .5em;                /* on décolle le contenu du bord */
+  overflow: auto;               /* rien ne doit déborder */
+  max-height: 100%;             /* pas plus haut que son parent */
+  box-sizing: border-box;       /* modèle de boîte, plus simple à gérer */
+}
+
+/* Quand le panneau est ouvert */
+#lateral-panel-input:checked ~ #lateral-panel-bloc {
+    transform: translateX(-100%);     /* Déplace le panneau vers la gauche pour l'afficher */
+}
+
+
+#lateral-panel-label:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  box-sizing: border-box;
+  width: 1em;
+  height: 1em;
+  border: .5em solid currentColor;
+  border-width: .5em .5em 0 0;
+  color: #888;
+  transition: all .5s;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#lateral-panel-input:checked ~ #lateral-panel-bloc #lateral-panel-label:before {
+  transform: translate(-50%, -50%) rotate(-135deg);
+}
+  
+  #menu-toggle {
+    position: fixed;
+    top: 30px;
+    left: 50px;
+    background: #000;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 10000;
+}
+#menu-toggle:hover {
+    background: #333;
+}
+
+/* Style pour les tooltips de Leaflet */
+.leaflet-tooltip {
+    background-color: rgba(80, 80, 80, 0.9); /* Fond bleu */
+    color: rgba(255, 255, 255, 0.8); /* Texte en blanc */
+    font-size: 9px; /* Taille du texte */
+    font-weight: normal; /* Texte en gras */
+    padding: 2px 2px; /* Espacement interne du texte */
+    border-radius: 2px; /* Coins arrondis */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Légère ombre pour le tooltip */
+    max-width: 200px; /* Limiter la largeur du tooltip */
+    word-wrap: break-word; /* Le texte trop long se met à la ligne */
+    text-align: center; /* Centrer le texte dans le tooltip */
+	opacity: 0.7;
+}
+
+/* Style pour les tooltips avec une petite flèche */
+.leaflet-tooltip-tip {
+    border-top-color: #007bff; /* Couleur de la flèche du tooltip */
+}
+
+/* Style pour le titre dans la popup (la mesure) */
+.potitre {
+    background-color: #333; /* Fond gris foncé pour le titre */
+    color: white; /* Texte blanc */
+    font-size: 16px; /* Taille de la police */
+    font-weight: bold; /* Gras pour le titre */
+    padding: 15px; /* Espacement autour du texte */
+    text-align: center; /* Centrer le texte */
+    border-radius: 15px; /* Coins arrondis */
+    margin-bottom: 10px; /* Espacement sous le titre */
+    border: 3px solid #fff; /* Bordure épaisse et blanche */
+}
+
+/* Style pour le popup général */
+.pocustom-popup {
+    background-color: #f4f4f4;  /* Fond gris clair pour le popup */
+    border-radius: 15px; /* Coins arrondis pour le popup */
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Ombre subtile autour du popup */
+    border: 4px solid #fff; /* Bordure blanche épaisse */
+}
+
+/* Style pour le contenu du popup */
+.popopup-content {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px; /* Taille de police confortable */
+    color: #333; /* Texte sombre pour une bonne lisibilité */
+    background-color: #fff; /* Fond blanc pour le texte */
+    padding: 20px;
+    border-radius: 12px; /* Coins arrondis pour le contenu */
+    border: 2px solid #fff; /* Bordure blanche autour du contenu */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre discrète pour faire ressortir le contenu */
+}
+
+/* Effet de survol du titre de la popup (pour un aspect interactif) */
+.potitre:hover {
+    cursor: pointer; /* Curseur pointer pour indiquer qu'on peut interagir */
+    background-color: #444; /* Changer la couleur de fond au survol */
+}
+
+/* Optionnel: animation de transition pour les popups */
+.popopup-content,
+.pocustom-popup {
+    transition: all 0.3s ease-in-out; /* Transition douce pour les éléments */
+}
+
+#layerSelect {
+    max-width: 300px;  /* Ajuste la largeur maximale */
+    width: 100%;       /* Adapte à la largeur du conteneur */
+    overflow: hidden;  /* Empêche le dépassement */
+    text-overflow: ellipsis; /* Ajoute "..." si le texte est trop long */
+    white-space: nowrap; /* Empêche le retour à la ligne */
+}
+
+/* Style pour le contrôle avec le point d'interrogation (avant et après survol) */
+.leaflet-control-question {
+    background: white;
+    color: black;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+/* Style pour le texte lorsqu'on survole le contrôle */
+.leaflet-control-question.hovered {
+    background-color: #f0f0f0; /* Fond gris clair */
+    color: #333; /* Texte noir */
+    border: 1px solid #000; /* Bordure noire */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 10px; /* Un peu d'espace autour du texte */
+    font-size: 24px; /* Taille de police plus grande */
+    cursor: pointer; /* Curseur de la souris */
+    transition: background-color 0.3s; /* Animation de changement de fond */
+}
+
+/* Style pour le texte de l'infobulle (lors du survol) */
+.leaflet-control-question .info-text {
+    display: none; /* Cacher le texte par défaut */
+    background-color: #f0f0f0; /* Fond gris clair */
+    color: #333; /* Texte noir */
+    border: 1px solid #000; /* Bordure noire */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 8px 12px; /* Un peu d'espace autour du texte */
+    font-size: 12px; /* Taille de police plus petite */
+    position: absolute; /* Placer le texte correctement */
+    top: 35px; /* Position du texte au-dessus du point d'interrogation */
+    left: -500%; /* Déplacer le texte un peu plus à gauche */
+    transform: translateX(0); /* Ajuster le centrage horizontal */
+    z-index: 10000; /* Assurez-vous que le texte s'affiche au-dessus des autres éléments */
+    width: 180px; /* Ajuster la largeur pour s'assurer qu'il ne sort pas de l'écran */
+    white-space: nowrap; /* Empêcher le texte de se couper */
+}
+
+/* Afficher le texte lors du survol */
+.leaflet-control-question:hover .info-text {
+    display: block; /* Afficher le texte lors du survol */
+}
+
+/* Style du bouton plein écran */
+.leaflet-control-fullscreen {
+    background: white;
+    color: black;
+    width: 34px;
+    height: 34px;
+    text-align: center;
+    line-height: 34px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+}
+
+/* Effet au survol */
+.leaflet-control-fullscreen:hover {
+    background: #f0f0f0;
+}
+
+/* Style pour indiquer le mode plein écran actif */
+.leaflet-control-fullscreen.active {
+    background: yellow;
+    border-color: black;
+}
+
