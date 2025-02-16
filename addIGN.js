@@ -134,10 +134,12 @@ async function getFeatureInfoPOS(lat, lon) {
             bboxMin[0], bboxMin[1],
             bboxMax[0], bboxMax[1]
         ];
-
+	var proxy="https://api.allorigins.win/get?url=";
+	
         // URL de la requête GetFeatureInfo avec les bonnes coordonnées en EPSG:2975
-        var url = `http://peigeo.re:8080/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=peigeo:pos_plu&QUERY_LAYERS=peigeo:pos_plu&INFO_FORMAT=application/json&I=${x}&J=${y}&WIDTH=${width}&HEIGHT=${height}&CRS=EPSG:2975&BBOX=${bbox2975.join(',')}`;
-
+        var apiUrl = `http://peigeo.re:8080/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=peigeo:pos_plu&QUERY_LAYERS=peigeo:pos_plu&INFO_FORMAT=application/json&I=${x}&J=${y}&WIDTH=${width}&HEIGHT=${height}&CRS=EPSG:2975&BBOX=${bbox2975.join(',')}`;
+	var url=proxy + encodeURIComponent(apiUrl);
+	    
         // Envoi de la requête GetFeatureInfo
         $.getJSON(url)
 	    .done(function (data) {
