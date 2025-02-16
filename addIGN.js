@@ -140,16 +140,16 @@ function getFeatureInfoPOS(lat, lon) {
 
         // Envoi de la requête GetFeatureInfo
         $.getJSON(url)
-            .done(function (data) {
-                if (data.features && data.features.length > 0) {
-                    resolve(data.features[0].properties);
-                } else {
-                    reject("Aucune donnée trouvée.");
-                }
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                reject(`Erreur requête GetFeatureInfo: ${textStatus} - ${errorThrown}`);
-            });
+	    .done(function (data) {
+	        if (data && data.features && data.features.length > 0) {
+	            resolve(data.features[0].properties);
+	        } else {
+	            reject(new Error("Aucune donnée trouvée."));
+	        }
+	    })
+	    .fail(function (jqXHR, textStatus, errorThrown) {
+	        reject(new Error(`Erreur requête GetFeatureInfo: ${textStatus} - ${errorThrown}`));
+	    });
     });
 }
 
